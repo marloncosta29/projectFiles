@@ -1,12 +1,13 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Routes from './routes'
+import GlobalStyle from './styles/global'
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <h1>TESTE</h1>
-    </div>
+    <>
+      <GlobalStyle />
+      <Routes />
+    </>
   );
 }
 
