@@ -1,4 +1,8 @@
-import Styled from 'styled-components'
+import Styled, { StyledComponent, keyframes, css } from 'styled-components'
+
+interface Button {
+  loading: boolean
+}
 
 export const Container = Styled.div`
   max-width: 700px;
@@ -10,17 +14,92 @@ export const Container = Styled.div`
   h1{
     font-size: 20px;
     display: flex;
-    flex-direction: row;
     align-items: center;
+    flex-direction: row;
+    
+    svg{
+      margin-right: 10px
+    }
     
   }
 `;
 
 export const Form = Styled.form`
+  margin-top: 30px;
+  display: flex;
+  flex-direction: row;
+  input{
+    flex:1;
+    border: 1px solid #DDD;
+    padding: 10px 15px;
+    border-radius: 4px;
+    font-size: 17px
+  }
+`;
 
+//Criando animação
+const anim = keyframes`
+  from{
+    transform: rotate(0deg);
+  }
+
+  to{
+    transform: rotate(360deg);
+  }
+
+`
+
+
+export const SubmitButton: StyledComponent<"button", Button, { loading: boolean }, never> = Styled.button.attrs<Button>(({ loading }) => ({
+  type: 'submit',
+  disabled: loading
+})) <Button>`
+    background: #0D2636;
+    border: 0;
+    border-radius: 4px;
+    margin-left: 10px;
+    padding:0 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+  &[disabled]{
+    cursor: not-allowed;
+    opacity: 0.5
+  }
+
+  ${props => props.loading && css`
+    svg{
+      animation: ${anim} 2s linear infinite
+    }
+  `}
+`;
+
+export const List = Styled.ul`
+  list-style: nome;
+  margin-top:20px;
+
+    li{
+      padding: 15px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+
+      & + li{
+        border-top: 1px solid #eee;
+      }
+
+      a{
+        color: #0D2636;
+        text-decoration: none;
+      }
+    }
 
 `;
 
-export const SubmitButton = Styled.button`
-
+export const DeleteButton: StyledComponent<"button", Button, {}, never> = Styled.button.attrs<Button>(() => ({
+  type: 'submit',
+})) <Button>`
 `;
