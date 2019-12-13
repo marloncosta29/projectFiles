@@ -1,9 +1,11 @@
 import Styled, { StyledComponent, keyframes, css } from 'styled-components'
 
 interface Button {
-  loading: boolean
+  loading: number
 }
-
+interface Form {
+  error: boolean
+}
 export const Container = Styled.div`
   max-width: 700px;
   background: #FFF;
@@ -24,13 +26,13 @@ export const Container = Styled.div`
   }
 `;
 
-export const Form = Styled.form`
+export const Form: StyledComponent<"form", any, Form, never> = Styled.form<Form>`
   margin-top: 30px;
   display: flex;
   flex-direction: row;
   input{
     flex:1;
-    border: 1px solid #DDD;
+    border: 1px solid ${p => p.error ? '#FF0000' : '#DDD'};
     padding: 10px 15px;
     border-radius: 4px;
     font-size: 17px
@@ -50,7 +52,7 @@ const anim = keyframes`
 `
 
 
-export const SubmitButton: StyledComponent<"button", Button, { loading: boolean }, never> = Styled.button.attrs<Button>(({ loading }) => ({
+export const SubmitButton: StyledComponent<"button", any, Button, never> = Styled.button.attrs<Button>(({ loading }) => ({
   type: 'submit',
   disabled: loading
 })) <Button>`
@@ -69,11 +71,12 @@ export const SubmitButton: StyledComponent<"button", Button, { loading: boolean 
     opacity: 0.5
   }
 
-  ${props => props.loading && css`
+  ${props => {
+    return props.loading && css`
     svg{
       animation: ${anim} 2s linear infinite
     }
-  `}
+  `}}
 `;
 
 export const List = Styled.ul`
@@ -100,6 +103,12 @@ export const List = Styled.ul`
 `;
 
 export const DeleteButton: StyledComponent<"button", Button, {}, never> = Styled.button.attrs<Button>(() => ({
-  type: 'submit',
+  type: 'button',
 })) <Button>`
+    background: transparent;
+    color: #0D2636;
+    border: 0;
+    padding: 8px 7px;
+    outline: 0;
+    border-radius: 4px;
 `;
